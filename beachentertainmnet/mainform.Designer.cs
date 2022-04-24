@@ -154,6 +154,7 @@ namespace beachentertainmnet
             // 
             // listBox3
             // 
+            this.listBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox3.FormattingEnabled = true;
             this.listBox3.ItemHeight = 16;
             this.listBox3.Items.AddRange(new object[] {
@@ -164,7 +165,7 @@ namespace beachentertainmnet
             "гидроцикл"});
             this.listBox3.Location = new System.Drawing.Point(0, 0);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(259, 196);
+            this.listBox3.Size = new System.Drawing.Size(262, 200);
             this.listBox3.TabIndex = 0;
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.listBox3_SelectedIndexChanged);
             // 
