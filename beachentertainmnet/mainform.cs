@@ -63,9 +63,11 @@ namespace beachentertainmnet
 
         private void mainform_Load(object sender, EventArgs e)
         {
-
+            selecttime = DateTime.Today;
             listchildworkers.Displayinfo = (displayinfo)displayinfoworkers;
             listchildcalendar.Displayinfo = (displayinfo)attractionsdisplayinfo;
+            listchildcalendar.selectTime = selecttime;
+            listchildworkers.selectTime = selecttime;
             connection = new SqlConnection(connectionString);
             connection.Open();
             nameTableAttractions = "TestAttr1";
@@ -81,7 +83,7 @@ namespace beachentertainmnet
             {
                 pics.Add((pictures)i);
             }
-            selecttime = DateTime.Today;
+          
             richTextBox1.Text = selecttime.ToLongDateString();
             attractionFromBase();
             workersFromBase();

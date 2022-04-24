@@ -11,7 +11,14 @@ namespace beachentertainmnet
     {
         displayinfo dispinfo;
         List<IShowInfo> show = new List<IShowInfo>();
-        DateTime selectDate=DateTime.Now;
+        DateTime selectDate;
+        public DateTime selectTime
+        {
+            set
+            {
+                selectDate = value;
+            }
+        }
         public displayinfo Displayinfo
         {
             set

@@ -8,9 +8,10 @@ namespace beachentertainmnet
 {
     public class status
     {
-        string nameofarendator;
-        DateTime starrttime;
-        DateTime endtime;
-        worker serving;
+        
+        //public static string textStatus(string NameOfArendator, DateTime starrttime, DateTime endtime, worker serving)
+        //{
+        //    return $"Арендатор:{NameOfArendator}\n Начало аренды:{starrttime}\n Конец аренды:{endtime}\n Сотрудник:{serving}";
+        //}
     }
 }
