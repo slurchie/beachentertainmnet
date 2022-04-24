@@ -16,61 +16,80 @@ namespace beachentertainmnet
     {
         SqlConnection connection;
         List <pictures>pics=new List<pictures>(4);
+        List<attractions> attract = new List<attractions>(4);
         DateTime selecttime;
+        string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=beachentertainment;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        string nameTableAttractions;
+        public Form formochka;
+        List<worker> workers = new List<worker>(3);
+        string nameTableWorkers;
 
         public mainform()
         {
 
             InitializeComponent();
 
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=beachentertainment;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            connection = new SqlConnection(connectionString);
-            connection.Open();
-            SqlCommand commandAttr = new SqlCommand();
-            commandAttr.Connection = connection;
-            commandAttr.CommandText = "CREATE TABLE attrs(name_of_attrs VARCHAR(38), price DECIMAL(38),picture VARBINARY(MAX));";
-            commandAttr.ExecuteNonQuery();
-            commandAttr.CommandText = "INSERT INTO attrs(name_of_attrs, price,picture)VALUES(банан,350," + getImage("images.jpg") + ");";
-            //SqlParameter ageParam = new SqlParameter("@image", getImage("images.jpg"));
-            //commandAttr.Parameters.Add(ageParam);
-            commandAttr.ExecuteNonQuery();
-            pictures1.Image = GetnReturnPicture();
-            //string connectionString = "Server=(localdb)\\mssqllocaldb;Database=master;Trusted_Connection=True;";
-            //string sqlExpression = @"CREATE TABLE Files 
-            //                    (Id INT PRIMARY KEY IDENTITY, 
-            //                     Title NVARCHAR(50) NOT NULL, 
-            //                     FileName NVARCHAR(50) NOT NULL,
-            //                     ImageData varbinary(MAX))";
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    connection.OpenAsync();
-            //    SqlCommand command = new SqlCommand(sqlExpression, connection);
-            //    command.ExecuteNonQueryAsync();
-
-            //}
         }
-
+        void savetoBaseAttractions( string name, double price, string filename)
+        {
+            SqlCommand commandRead = new SqlCommand();
+            commandRead.Connection = connection;
+            commandRead.CommandText = $"INSERT INTO {nameTableAttractions} VALUES (@name_attr, @price, @ImageData)";
+            commandRead.Parameters.Add("@name_attr", SqlDbType.NVarChar, 50);
+            commandRead.Parameters.Add("@price", SqlDbType.Decimal, 50);
+            byte[] imageData;
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                imageData = new byte[fs.Length];
+                fs.Read(imageData, 0, imageData.Length);
+                commandRead.Parameters.Add("@ImageData", SqlDbType.VarBinary, Convert.ToInt32(fs.Length));
+            }
+            // передаем данные в команду через параметры
+            commandRead.Parameters["@name_attr"].Value = name;
+            commandRead.Parameters["@price"].Value = price;
+            commandRead.Parameters["@ImageData"].Value = imageData;
+            commandRead.ExecuteNonQuery();
+        }
+        void CreateTable()
+        {
+            SqlCommand command = new SqlCommand($"CREATE TABLE {nameTableAttractions}(test_table_id INT PRIMARY KEY IDENTITY, name_attr NVARCHAR(50), price DECIMAL(10,2), ImageData varbinary(MAX));", connection);
+            command.ExecuteNonQuery();
+        }
+        void CreateTableWorkers()
+        {
+            SqlCommand command = new SqlCommand($"CREATE TABLE {nameTableWorkers}(test_table_id INT PRIMARY KEY IDENTITY, name_Of_Worker NVARCHAR(50), post NVARCHAR(50), worker_pic VARBINARY(MAX), start_of_working DATE,end_of_working DATE,own_attraction INT,smenshik INT);", connection);
+            command.ExecuteNonQuery();
+        }
 
         private void mainform_Load(object sender, EventArgs e)
         {
 
-
-
-
-
-
-
-
-            pictures1.setInfo("банан", "Свободен", Properties.Resources.банан);
-            pictures2.setInfo("катамаран", "Свободен", Properties.Resources.катамаран);
-            pictures3.setInfo("гидроцикл", "В ремонте", Properties.Resources.гидроцикл1);
-            pictures4.setInfo("водная горка", "Занят", Properties.Resources.горка);
+            listchildworkers.Displayinfo = (displayinfo)displayinfoworkers;
+            listchildcalendar.Displayinfo = (displayinfo)attractionsdisplayinfo;
+            connection = new SqlConnection(connectionString);
+            connection.Open();
+            nameTableAttractions = "TestAttr1";
+            nameTableWorkers = "TestWorker1";
+            //CreateTableWorkers();
+         
+            //CreateTable();
+            //pictures1.setInfo("банан", "Свободен", Properties.Resources.банан);
+            //pictures2.setInfo("катамаран", "Свободен", Properties.Resources.катамаран);
+            //pictures3.setInfo("гидроцикл", "В ремонте", Properties.Resources.гидроцикл1);
+            //pictures4.setInfo("водная горка", "Занят", Properties.Resources.горка);
             foreach (var i in tableLayoutPanel2.Controls)
             {
                 pics.Add((pictures)i);
             }
             selecttime = DateTime.Today;
             richTextBox1.Text = selecttime.ToLongDateString();
+            attractionFromBase();
+            workersFromBase();
+            pictures1.Image = attract[0].showimage();
+            pictures2.Image = attract[1].showimage();
+            pictures3.Image = attract[2].showimage();
+            pictures4.Image = attract[3].showimage();
+            writeintotables();
         }
 
  
@@ -141,8 +160,116 @@ namespace beachentertainmnet
                 }
             return null;
             }
-          
+        void attractionFromBase()
+        {
+            SqlCommand commandWrite = new SqlCommand();
+            commandWrite.CommandText = $"SELECT * FROM {nameTableAttractions}";
+            commandWrite.Connection = connection;
+
+            using (SqlDataReader reader = commandWrite.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string name_attr = reader.GetString(1);
+                    decimal price = reader.GetDecimal(2);
+                    byte[] data = (byte[])reader.GetValue(3);
+                    MemoryStream ms = new MemoryStream(data);
+                    attractions attracts = new attractions(name_attr, price, Image.FromStream(ms));
+                    attract.Add(attracts);
+                    listchildcalendar.addToList(attracts);
+                }
+            }
         }
+        void workersFromBase()
+        {
+            SqlCommand commandWrite = new SqlCommand();
+            commandWrite.CommandText = $"SELECT * FROM {nameTableWorkers}";
+            commandWrite.Connection = connection;
+
+            using (SqlDataReader reader = commandWrite.ExecuteReader())
+            {
+                List<int> idworkers = new List<int>(4);
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string name_of_worker = reader.GetString(1);
+                    string post = reader.GetString(2);
+                    byte[] data = (byte[])reader.GetValue(3);
+                    MemoryStream ms = new MemoryStream(data);
+                    DateTime startofworking = reader.GetDateTime(4);
+                    DateTime endofworking = reader.GetDateTime(5);
+                    int id_attr = reader.GetInt32(6);
+                    int id_worker = reader.GetInt32(7);
+                    //Image pictureworker = Image.FromStream(ms);
+                    idworkers.Add(id_worker);
+                    worker rabotyaga=new worker(name_of_worker, post, Image.FromStream(ms), startofworking, endofworking, attract[id_attr]);
+                    workers.Add(rabotyaga);
+                 
+                    listchildworkers.addToList(rabotyaga);
+                }
+                for(int i =0;i<workers.Count;i++)
+                {
+                    workers[i].Smenshik = workers[idworkers[i]];
+                }
+            }
+        }
+        private void mainform_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formochka.Close();
+        }
+        public void clearInfo()
+        {
+            SqlCommand clearCommand = new SqlCommand($"DELETE FROM {nameTableAttractions};",connection);
+            clearCommand.ExecuteNonQuery();
+            clearCommand.CommandText = $"DELETE FROM {nameTableWorkers};";
+
+            clearCommand.ExecuteNonQuery();
+
+        }
+        public void writeintotables()
+        {
+            clearInfo();
+            savetoBaseAttractions("банан", 350, "банан.jpg");
+            savetoBaseAttractions("катамаран", 200, "катамаран.jpg");
+            savetoBaseAttractions("горка", 300, "горка.jpg");
+            savetoBaseAttractions("гидроцикл", 400, "гидроцикл1.jpg");
+            savetoBaseWorkers("Сан Саныч", "охранник", "worker1.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 0, 2);
+            savetoBaseWorkers("Карчевский", "охранник", "worker2.jpg", new DateTime(2022, 8, 11, 8, 30, 0), new DateTime(2022, 8, 11, 20, 30, 0),2, 0);
+            savetoBaseWorkers("Сан Саныч", "охранник", "worker3.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 3, 3);
+            savetoBaseWorkers("Сан Саныч", "охранник", "worker1.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 1, 1);
+        }
+        void savetoBaseWorkers(string nameOfWorker, string Post, string workpic, DateTime StartOfWorking, DateTime EndOfWorking, int OwnAttr, int Smenshik)
+        {
+            SqlCommand commandRead = new SqlCommand();
+            commandRead.Connection = connection;
+            commandRead.CommandText = $"INSERT INTO {nameTableWorkers} VALUES (@nameOfWorker, @post, @workpic,@startofworkingday,@endofworkingday,@ownattraction,@smenshik)";
+            commandRead.Parameters.Add("@nameofworker", SqlDbType.NVarChar, 50);
+            commandRead.Parameters.Add("@post", SqlDbType.NVarChar, 50);
+            byte[] imageData;
+            using (FileStream fs = new FileStream(workpic, FileMode.Open))
+            {
+                imageData = new byte[fs.Length];
+                fs.Read(imageData, 0, imageData.Length);
+                commandRead.Parameters.Add("@workpic", SqlDbType.VarBinary, Convert.ToInt32(fs.Length));
+            }
+       
+            commandRead.Parameters.Add("@startofworkingday", SqlDbType.Date);
+            commandRead.Parameters.Add("@endofworkingday", SqlDbType.Date);
+            commandRead.Parameters.Add("@ownattraction", SqlDbType.Int, 50);
+            commandRead.Parameters.Add("@smenshik", SqlDbType.Int, 50);
+            // передаем данные в команду через параметры
+            commandRead.Parameters["@nameOfWorker"].Value = nameOfWorker;
+            commandRead.Parameters["@post"].Value = Post;
+            commandRead.Parameters["@workpic"].Value = imageData;
+            commandRead.Parameters["@startofworkingday"].Value = StartOfWorking;
+            commandRead.Parameters["@endofworkingday"].Value = EndOfWorking;
+            commandRead.Parameters["@ownattraction"].Value = OwnAttr;
+            commandRead.Parameters["@smenshik"].Value = Smenshik;
+            commandRead.ExecuteNonQuery();
+        }
+    }
     }
     
 

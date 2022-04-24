@@ -22,6 +22,7 @@ namespace beachentertainmnet
             mainform frm = new mainform();
             frm.Show();
             this.Hide();
+            frm.formochka = this;
         }
     }
 }

@@ -10,8 +10,15 @@ namespace beachentertainmnet
     public class attractions : IShowInfo
     {
         string nameofattraction;
-        int priceodarenda;
+        decimal priceodarenda;
         Image pic;
+        public attractions(string NameOfAttraction,decimal PriceOfArenda, Image picattr)
+        {
+            nameofattraction = NameOfAttraction;
+            priceodarenda = PriceOfArenda;
+            pic = picattr;
+
+        }
         public override string ToString()
         {
             return nameofattraction;
@@ -25,6 +32,10 @@ namespace beachentertainmnet
             string showattrinfo = nameofattraction + "\n";
             showattrinfo += priceodarenda;
             return showattrinfo;
+        }
+        public string getName()
+        {
+            return nameofattraction;
         }
             
 

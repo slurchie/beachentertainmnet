@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace beachentertainmnet
 {
-   public  class worker: IShowInfo
+    public class worker : IShowInfo
     {
         string nameofworker;
         string post;
@@ -16,6 +16,36 @@ namespace beachentertainmnet
         DateTime endofworkingday;
         attractions ownattraction;
         worker smenshik;
+        public worker Smenshik
+        {
+          
+            set
+            {
+                smenshik = value;
+            }
+        }
+
+    
+        public worker(string nameOfWorker,string Post,Image workpic,DateTime StartOfWorking,DateTime EndOfWorking,attractions OwnAttr,worker Smenshik)
+        {
+            nameofworker = nameOfWorker;
+            post = Post;
+            workerpic = workpic;
+            startofworkingday = StartOfWorking;
+            endofworkingday = EndOfWorking;
+            ownattraction = OwnAttr;
+            smenshik = Smenshik;
+        }
+        public worker(string nameOfWorker, string Post, Image workpic, DateTime StartOfWorking, DateTime EndOfWorking,attractions Attr)
+        {
+            nameofworker = nameOfWorker;
+            post = Post;
+            workerpic = workpic;
+            startofworkingday = StartOfWorking;
+            endofworkingday = EndOfWorking;
+            ownattraction = Attr;
+        }
+        
         public Image showimage()
         {
             return workerpic;
@@ -34,6 +64,10 @@ namespace beachentertainmnet
             showString += "Сменщик:" + smenshik;
             return showString;
 
+        }
+        public string getName()
+        {
+            return nameofworker;
         }
     }
 }

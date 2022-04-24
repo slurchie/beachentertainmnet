@@ -47,13 +47,13 @@ namespace beachentertainmnet
             this.buttonBack = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.displayinfo2 = new beachentertainmnet.displayinfo();
+            this.attractionsdisplayinfo = new beachentertainmnet.displayinfo();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.displayinfo1 = new beachentertainmnet.displayinfo();
+            this.displayinfoworkers = new beachentertainmnet.displayinfo();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.listchildworkers = new beachentertainmnet.listchild();
+            this.listchildcalendar = new beachentertainmnet.listchild();
             this.menu.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -79,15 +79,15 @@ namespace beachentertainmnet
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.displayinfo2)).BeginInit();
-            this.displayinfo2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.attractionsdisplayinfo)).BeginInit();
+            this.attractionsdisplayinfo.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.displayinfo1)).BeginInit();
-            this.displayinfo1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.displayinfoworkers)).BeginInit();
+            this.displayinfoworkers.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -268,7 +268,7 @@ namespace beachentertainmnet
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.displayinfo2);
+            this.splitContainer1.Panel2.Controls.Add(this.attractionsdisplayinfo);
             this.splitContainer1.Size = new System.Drawing.Size(786, 412);
             this.splitContainer1.SplitterDistance = 262;
             this.splitContainer1.TabIndex = 0;
@@ -287,7 +287,7 @@ namespace beachentertainmnet
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer2.Panel2.Controls.Add(this.listchildcalendar);
             this.splitContainer2.Size = new System.Drawing.Size(262, 412);
             this.splitContainer2.SplitterDistance = 87;
             this.splitContainer2.TabIndex = 0;
@@ -341,29 +341,15 @@ namespace beachentertainmnet
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
-            // listBox1
+            // attractionsdisplayinfo
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Items.AddRange(new object[] {
-            "1)jndjdsbjcsdnjcn",
-            "2)hasbdhsbchsebdc",
-            "3)sf;sefewfew"});
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(262, 321);
-            this.listBox1.TabIndex = 0;
-            // 
-            // displayinfo2
-            // 
-            this.displayinfo2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.displayinfo2.Location = new System.Drawing.Point(0, 0);
-            this.displayinfo2.Name = "displayinfo2";
-            this.displayinfo2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.displayinfo2.Size = new System.Drawing.Size(520, 412);
-            this.displayinfo2.SplitterDistance = 206;
-            this.displayinfo2.TabIndex = 0;
+            this.attractionsdisplayinfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.attractionsdisplayinfo.Location = new System.Drawing.Point(0, 0);
+            this.attractionsdisplayinfo.Name = "attractionsdisplayinfo";
+            this.attractionsdisplayinfo.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.attractionsdisplayinfo.Size = new System.Drawing.Size(520, 412);
+            this.attractionsdisplayinfo.SplitterDistance = 206;
+            this.attractionsdisplayinfo.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -384,34 +370,24 @@ namespace beachentertainmnet
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.listBox2);
+            this.splitContainer3.Panel1.Controls.Add(this.listchildworkers);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.displayinfo1);
+            this.splitContainer3.Panel2.Controls.Add(this.displayinfoworkers);
             this.splitContainer3.Size = new System.Drawing.Size(786, 412);
             this.splitContainer3.SplitterDistance = 262;
             this.splitContainer3.TabIndex = 0;
             // 
-            // listBox2
+            // displayinfoworkers
             // 
-            this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(0, 0);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(262, 412);
-            this.listBox2.TabIndex = 0;
-            // 
-            // displayinfo1
-            // 
-            this.displayinfo1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.displayinfo1.Location = new System.Drawing.Point(0, 0);
-            this.displayinfo1.Name = "displayinfo1";
-            this.displayinfo1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.displayinfo1.Size = new System.Drawing.Size(520, 412);
-            this.displayinfo1.SplitterDistance = 206;
-            this.displayinfo1.TabIndex = 0;
+            this.displayinfoworkers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.displayinfoworkers.Location = new System.Drawing.Point(0, 0);
+            this.displayinfoworkers.Name = "displayinfoworkers";
+            this.displayinfoworkers.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.displayinfoworkers.Size = new System.Drawing.Size(520, 412);
+            this.displayinfoworkers.SplitterDistance = 206;
+            this.displayinfoworkers.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -423,6 +399,26 @@ namespace beachentertainmnet
             this.tabPage4.Text = "Статистика";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // listchildworkers
+            // 
+            this.listchildworkers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listchildworkers.FormattingEnabled = true;
+            this.listchildworkers.ItemHeight = 16;
+            this.listchildworkers.Location = new System.Drawing.Point(0, 0);
+            this.listchildworkers.Name = "listchildworkers";
+            this.listchildworkers.Size = new System.Drawing.Size(262, 404);
+            this.listchildworkers.TabIndex = 0;
+            // 
+            // listchildcalendar
+            // 
+            this.listchildcalendar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listchildcalendar.FormattingEnabled = true;
+            this.listchildcalendar.ItemHeight = 16;
+            this.listchildcalendar.Location = new System.Drawing.Point(0, 0);
+            this.listchildcalendar.Name = "listchildcalendar";
+            this.listchildcalendar.Size = new System.Drawing.Size(262, 308);
+            this.listchildcalendar.TabIndex = 0;
+            // 
             // mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -430,6 +426,7 @@ namespace beachentertainmnet
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.menu);
             this.Name = "mainform";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.mainform_FormClosed);
             this.Load += new System.EventHandler(this.mainform_Load);
             this.menu.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -456,15 +453,15 @@ namespace beachentertainmnet
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.displayinfo2)).EndInit();
-            this.displayinfo2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.attractionsdisplayinfo)).EndInit();
+            this.attractionsdisplayinfo.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.displayinfo1)).EndInit();
-            this.displayinfo1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.displayinfoworkers)).EndInit();
+            this.displayinfoworkers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -476,16 +473,14 @@ namespace beachentertainmnet
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private displayinfo displayinfo2;
+        private displayinfo attractionsdisplayinfo;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.ListBox listBox2;
-        private displayinfo displayinfo1;
+        private displayinfo displayinfoworkers;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
@@ -496,6 +491,8 @@ namespace beachentertainmnet
         private pictures pictures4;
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.ListBox listBox4;
+        private listchild listchildcalendar;
+        private listchild listchildworkers;
     }
 }
 

@@ -176,6 +176,9 @@
     <Compile Include="disсlaimer.Designer.cs">
       <DependentUpon>disсlaimer.cs</DependentUpon>
     </Compile>
+    <Compile Include="listchild.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="mainform.cs">
       <SubType>Form</SubType>
     </Compile>

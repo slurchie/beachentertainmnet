@@ -10,7 +10,8 @@ namespace beachentertainmnet
     interface IShowInfo
     {
        Image showimage();
-       string showText(DateTime date); 
+       string showText(DateTime date);
+        string getName();
 
       
     }
