@@ -41,7 +41,7 @@ namespace beachentertainmnet
             showattrinfo += priceodarenda+"\n";
             try
             {
-                showattrinfo += conditions[date.Date].status_attractions;
+                showattrinfo += conditions[date.Date].GetFullSt;
             }
             catch
             {

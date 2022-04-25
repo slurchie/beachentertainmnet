@@ -66,7 +66,7 @@ namespace beachentertainmnet
         }
         void CreateTablestatus()
         {
-            SqlCommand command = new SqlCommand($"CREATE TABLE {nameTableStatus}(id_attraction INT, currentdate DATE, status_attr NVARCHAR(50), profit BIT);", connection);
+            SqlCommand command = new SqlCommand($"CREATE TABLE {nameTableStatus}(id_attraction INT, currentdate DATE, status_attr NVARCHAR(50), profit BIT, full_status NVARCHAR(50));", connection);
            
             command.ExecuteNonQuery();
         }
@@ -83,12 +83,12 @@ namespace beachentertainmnet
             connection.Open();          
             nameTableAttractions = "TestAttr1";
             nameTableWorkers = "TestWorker2";
-            nameTableStatus = "testStatus1";
+            nameTableStatus = "testStatus2";
             //CreateTableWorkers();
 
             //CreateTablestatus();
             //CreateTable();
-            writeintotables();
+            //writeintotables();
             foreach (var i in tableLayoutPanel2.Controls)
             {
                 pics.Add((pictures)i);
@@ -265,8 +265,8 @@ namespace beachentertainmnet
             savetoBaseWorkers("Карчевский", "охранник", "worker2.jpg", new DateTime(2022, 8, 11, 8, 30, 0), new DateTime(2022, 8, 11, 20, 30, 0),2, 0);
             savetoBaseWorkers("Сан Саныч", "охранник", "worker3.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 3, 3);         
             savetoBaseWorkers("Сан Саныч", "охранник", "worker1.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 1, 1);
-            status st1=new status(0, new DateTime(2022, 4, 25), "Свободен", false);
-            SaveToBaseStatus(new status(1, new DateTime(2022, 3, 9), "В ремонте", true));
+            status st1=new status(0, new DateTime(2022, 4, 25), "Свободен", false, "Занят с 3.04 до 4.04 Арсением");
+            SaveToBaseStatus(new status(1, new DateTime(2022, 3, 9), "Занят", true, "Занят с 3.04 до 4.04 Арсением"));
 
             SaveToBaseStatus(st1);
            
@@ -314,22 +314,25 @@ namespace beachentertainmnet
                     DateTime curentdate = reader.GetDateTime(1);
                     string status_attr = reader.GetString(2);
                     bool profit = reader.GetBoolean(3);
-                    status new_status = new status(id_attr, curentdate, status_attr, profit);
+                    string full_st = reader.GetString(4);
+                    status new_status = new status(id_attr, curentdate, status_attr, profit,full_st);
                     attract[id_attr].addToDictionary(new_status);
                 }
             }
         }
         void SaveToBaseStatus(status status_attr)
         {
-            SqlCommand command = new SqlCommand($"INSERT INTO {nameTableStatus}(id_attraction, currentdate, status_attr, profit)VALUES(@id_attraction,@currentdate,@status_attr,@profit);",connection);
+            SqlCommand command = new SqlCommand($"INSERT INTO {nameTableStatus}(id_attraction, currentdate, status_attr, profit,full_status)VALUES(@id_attraction,@currentdate,@status_attr,@profit,@full_status);", connection);
             command.Parameters.Add("@id_attraction", SqlDbType.Int);
             command.Parameters.Add("@currentdate", SqlDbType.Date);
             command.Parameters.Add("@status_attr", SqlDbType.NVarChar, 50);
             command.Parameters.Add("@profit", SqlDbType.Bit);
+            command.Parameters.Add("@full_status", SqlDbType.NVarChar,50);
             command.Parameters["@id_attraction"].Value = status_attr.id_status;
             command.Parameters["@currentdate"].Value = status_attr.time;
             command.Parameters["@status_attr"].Value = status_attr.status_attractions;
             command.Parameters["@profit"].Value = status_attr.profit;
+            command.Parameters["@full_status"].Value = status_attr.FullStatus;
             command.ExecuteNonQuery();
         }
 
