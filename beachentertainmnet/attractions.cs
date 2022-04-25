@@ -12,12 +12,20 @@ namespace beachentertainmnet
         string nameofattraction;
         decimal priceodarenda;
         Image pic;
+        public Dictionary<DateTime, status> conditions = new Dictionary<DateTime, status>();
         public attractions(string NameOfAttraction,decimal PriceOfArenda, Image picattr)
         {
             nameofattraction = NameOfAttraction;
             priceodarenda = PriceOfArenda;
             pic = picattr;
 
+        }
+        public decimal Price
+        {
+            get
+            {
+                return priceodarenda;
+            }
         }
         public override string ToString()
         {
@@ -30,13 +38,38 @@ namespace beachentertainmnet
         public string showText(DateTime date)
         {
             string showattrinfo = nameofattraction + "\n";
-            showattrinfo += priceodarenda;
+            showattrinfo += priceodarenda+"\n";
+            try
+            {
+                showattrinfo += conditions[date.Date].status_attractions;
+            }
+            catch
+            {
+                showattrinfo += "нет информации";
+            }
+          
             return showattrinfo;
         }
         public string getName()
         {
             return nameofattraction;
         }
+        public void addToDictionary(status newStatus)
+        {
+            conditions.Add(newStatus.time, newStatus);
+        }
+        public string getstatus(DateTime date)
+        {
+            try
+            {
+                return conditions[date].status_attractions;
+            }
+            catch
+            {
+                return "Неизвестно";
+            }
+        }
+        
             
 
 

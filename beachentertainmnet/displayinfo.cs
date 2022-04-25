@@ -7,15 +7,16 @@ using System.Windows.Forms;
 using System.Drawing;
 namespace beachentertainmnet
 {
-    class displayinfo: SplitContainer
+    class displayinfo : SplitContainer
     {
         PictureBox photo;
         RichTextBox textinfo;
         PictureBox logo;
         IShowInfo selectobject;
-        
+
+
         TableLayoutPanel backgroundphoto;
-        public displayinfo():base()
+        public displayinfo() : base()
         {
             Orientation = Orientation.Horizontal;
             textinfo = new RichTextBox();
@@ -47,9 +48,16 @@ namespace beachentertainmnet
         }
         public void showInfo(IShowInfo objectShow, DateTime date)
         {
+            selectobject = objectShow;
             photo.Image = objectShow.showimage();
             textinfo.Text = objectShow.showText(date);
         }
+        public void refresh(DateTime date)
+        {
+            if (selectobject != null)
 
+                textinfo.Text = selectobject.showText(date);
+
+        }
     }
-}
+    }

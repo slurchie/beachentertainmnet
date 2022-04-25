@@ -26,15 +26,20 @@ namespace beachentertainmnet
             else
             {
                 BorderStyle = BorderStyle.None;
-            }
-
-             
+            }           
         }
-        public void setInfo(string nameofattr,string statusofattr,Image attrimage)
+        public string Status
+        {
+            set
+            {
+                status = value;
+            }
+        }
+        public void setInfo(string nameofattr,Image attrimage)
         {
             name = nameofattr;
-            status = statusofattr;
             Image = attrimage;
+            
 
         }
         public void lighten(string [] names, string [] Status)

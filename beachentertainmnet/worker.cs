@@ -57,10 +57,10 @@ namespace beachentertainmnet
         public string showText(DateTime time)
         {
             string showString = nameofworker+"\n";
-            showString += "Должность сотрудника " + post + "\n";
+            showString += "Должность сотрудника: " + post + "\n";
             showString += "На работе:" + startofworkingday.Hour+":"+startofworkingday.Minute+ "-";
             showString += endofworkingday.Hour+":"+endofworkingday.Minute + "\n";
-            showString += "Ответсвенен за аттракцион " + ownattraction + "\n";
+            showString += "Ответсвенен за аттракцион:" + ownattraction + "\n";
             showString += "Сменщик:" + smenshik;
             return showString;
 
