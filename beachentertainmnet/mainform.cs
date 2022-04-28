@@ -33,27 +33,6 @@ namespace beachentertainmnet
             InitializeComponent();
 
         }
-        void savetoBaseAttractions( string name, double price, string filename)
-        {
-            SqlCommand commandRead = new SqlCommand();
-            commandRead.Connection = connection;
-            commandRead.CommandText = $"INSERT INTO {nameTableAttractions} VALUES (@name_attr, @price, @ImageData)";
-            commandRead.Parameters.Add("@name_attr", SqlDbType.NVarChar, 50);
-            commandRead.Parameters.Add("@price", SqlDbType.Decimal, 50);
-            byte[] imageData;
-            using (FileStream fs = new FileStream(filename, FileMode.Open))
-            {
-                imageData = new byte[fs.Length];
-                fs.Read(imageData, 0, imageData.Length);
-                commandRead.Parameters.Add("@ImageData", SqlDbType.VarBinary, Convert.ToInt32(fs.Length));
-            }
-            // передаем данные в команду через параметры
-            commandRead.Parameters["@name_attr"].Value = name;
-            commandRead.Parameters["@price"].Value = price;
-            commandRead.Parameters["@ImageData"].Value = imageData;
-            commandRead.ExecuteNonQuery();
-            
-        }
         void CreateTable()
         {
             SqlCommand command = new SqlCommand($"CREATE TABLE {nameTableAttractions}(test_table_id INT PRIMARY KEY IDENTITY, name_attr NVARCHAR(50), price DECIMAL(10,2), ImageData varbinary(MAX));", connection);
@@ -84,11 +63,7 @@ namespace beachentertainmnet
             nameTableAttractions = "TestAttr1";
             nameTableWorkers = "TestWorker2";
             nameTableStatus = "testStatus2";
-            //CreateTableWorkers();
-
-            //CreateTablestatus();
-            //CreateTable();
-            //writeintotables();
+            writeintotables();
             foreach (var i in tableLayoutPanel2.Controls)
             {
                 pics.Add((pictures)i);
@@ -108,12 +83,12 @@ namespace beachentertainmnet
             try
             { 
                 foreach(pictures i in pics)
-                i.lighten(listBox3.Items[listBox3.SelectedIndex].ToString(), listBox4.Items[listBox4.SelectedIndex].ToString());
+                i.lighten(listBoxAttractions.Items[listBoxAttractions.SelectedIndex].ToString(), listBoxStatus.Items[listBoxStatus.SelectedIndex].ToString());
             }
             catch
             {
                 foreach (pictures i in pics)
-                    i.lighten(listBox3.Items[listBox3.SelectedIndex].ToString(), "Все");
+                    i.lighten(listBoxAttractions.Items[listBoxAttractions.SelectedIndex].ToString(), "Все");
             }
         }
 
@@ -122,12 +97,12 @@ namespace beachentertainmnet
             try
             {
                 foreach (pictures i in pics)
-                    i.lighten(listBox3.Items[listBox3.SelectedIndex].ToString(), listBox4.Items[listBox4.SelectedIndex].ToString());
+                    i.lighten(listBoxAttractions.Items[listBoxAttractions.SelectedIndex].ToString(), listBoxStatus.Items[listBoxStatus.SelectedIndex].ToString());
             }
             catch
             {
                 foreach (pictures i in pics)
-                    i.lighten("Все", listBox4.Items[listBox4.SelectedIndex].ToString());
+                    i.lighten("Все", listBoxStatus.Items[listBoxStatus.SelectedIndex].ToString());
             }
           
         }
@@ -170,6 +145,27 @@ namespace beachentertainmnet
                 }
             return null;
             }
+        void savetoBaseAttractions(string name, double price, string filename)
+        {
+            SqlCommand commandRead = new SqlCommand();
+            commandRead.Connection = connection;
+            commandRead.CommandText = $"INSERT INTO {nameTableAttractions} VALUES (@name_attr, @price, @ImageData)";
+            commandRead.Parameters.Add("@name_attr", SqlDbType.NVarChar, 50);
+            commandRead.Parameters.Add("@price", SqlDbType.Decimal, 50);
+            byte[] imageData;
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                imageData = new byte[fs.Length];
+                fs.Read(imageData, 0, imageData.Length);
+                commandRead.Parameters.Add("@ImageData", SqlDbType.VarBinary, Convert.ToInt32(fs.Length));
+            }
+            // передаем данные в команду через параметры
+            commandRead.Parameters["@name_attr"].Value = name;
+            commandRead.Parameters["@price"].Value = price;
+            commandRead.Parameters["@ImageData"].Value = imageData;
+            commandRead.ExecuteNonQuery();
+
+        }
         void attractionFromBase()
         {
             SqlCommand commandWrite = new SqlCommand();
@@ -188,9 +184,7 @@ namespace beachentertainmnet
                     Image img = Image.FromStream(ms);
                     attractions attracts = new attractions(name_attr, price, img);
                     attract.Add(attracts);
-                    listchildcalendar.addToList(attracts);
-                   
-                    
+                    listchildcalendar.addToList(attracts);                 
                 }
             }
         }
@@ -202,9 +196,52 @@ namespace beachentertainmnet
                 pics[counter].setInfo(attract[counter].getName(),attract[counter].showimage());
                 pics[counter].Status = attract[counter].getstatus(selecttime);
                 counter--;
-
             }
 
+        }
+
+        private void mainform_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formochka.Close();
+        }
+        public void clearInfo()
+        {
+            SqlCommand clearCommand = new SqlCommand($"DELETE FROM {nameTableAttractions};",connection);
+            clearCommand.ExecuteNonQuery();
+            clearCommand.CommandText = $"DELETE FROM {nameTableWorkers};";
+            clearCommand.ExecuteNonQuery();
+            clearCommand.CommandText = $"DELETE FROM {nameTableStatus};";
+            clearCommand.ExecuteNonQuery();
+            //montserat
+        }
+        public void writeintotables()
+        {
+            clearInfo();
+            savetoBaseAttractions("банан", 350, "банан.jpg");
+            savetoBaseAttractions("катамаран", 200, "катамаран.jpg");
+            savetoBaseAttractions("горка", 300, "горка.jpg");
+            savetoBaseAttractions("гидроцикл", 400, "гидроцикл1.jpg");
+            savetoBaseWorkers("Сан Саныч", "охранник", "worker3.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 0, 2);
+            savetoBaseWorkers("Карчевский", "охранник", "worker2.jpg", new DateTime(2022, 7, 12, 8, 30, 0), new DateTime(2022, 7, 12, 20, 30, 0),2, 0);
+            savetoBaseWorkers("Райан Гослинг", "охранник", "worker5.jpg", new DateTime(2022,7 , 13, 8, 30, 0), new DateTime(2022,7, 13, 20, 30, 0), 3, 3);         
+            savetoBaseWorkers("Итачи Учиха", "смотритель", "worker4.jpg", new DateTime(2022, 7, 14, 8, 30, 0), new DateTime(2022,7, 14, 20, 30, 0), 1, 1);
+            status st1=new status(0, new DateTime(2022, 4, 25), "Занят", true, "Занят с 25.04 15:00 до 25.04 16:30 Полиной Богдан ");
+            status st2 = new status(1, new DateTime(2022, 4, 25), "Свободен", false, "");
+            status st3 = new status(2, new DateTime(2022, 4, 25), "В ремонте", false, "");
+            status st5 = new status(3, new DateTime(2022, 4, 28), "Свободен", true, "Занят с 27.04 11:00 до 27.04 12:30 Арсением Поповым");
+            status st6 = new status(1, new DateTime(2022, 4, 29), "Занят", true, "Занят с 29.04 16:00 до 29.04 16:30 Антоном Шастуном");
+            SaveToBaseStatus(new status(0, new DateTime(2022, 4, 29), "Свободен", false,""));
+            SaveToBaseStatus(new status(2, new DateTime(2022, 4, 28), "Занят", true, "Занят с 3.04 до 4.04 Антоном Птушкиным"));
+            SaveToBaseStatus(new status(2, new DateTime(2022, 4, 29), "Занят", true, "Занят с 3.04 до 4.04 Владимиром Киселёвым"));
+            SaveToBaseStatus(new status(3, new DateTime(2022, 4, 29), "Занят", true, "Занят с 3.04 до 4.04 Родионом Барабашем"));
+            SaveToBaseStatus(new status(0, new DateTime(2022, 4, 30), "Занят", true, "Занят с 30.04 16:00 до 4.04 17:00 Серёжей Разумовским"));
+            SaveToBaseStatus(new status(1, new DateTime(2022, 4, 30), "Занят", true, "Занят с 30.04 19:30 до 30.04 20:00 Олегом Волковым"));
+            SaveToBaseStatus(new status(2, new DateTime(2022, 4, 30), "Занят", true, "Занят с 30.04 8:00 до 30.04 10:00 Валерией Макаровой"));
+            SaveToBaseStatus(new status(3, new DateTime(2022, 4, 30), "Занят", true, "Занят с 30.04 12:30 до 30.04 14:00 Алтаном Дагбаевым"));
+            SaveToBaseStatus(st1);
+            SaveToBaseStatus(st5);
+            SaveToBaseStatus(st3);
+            SaveToBaseStatus(st6);
         }
         void workersFromBase()
         {
@@ -229,47 +266,16 @@ namespace beachentertainmnet
                     int id_worker = reader.GetInt32(7);
                     //Image pictureworker = Image.FromStream(ms);
                     idworkers.Add(id_worker);
-                    worker rabotyaga=new worker(name_of_worker, post, Image.FromStream(ms), startofworking, endofworking, attract[id_attr]);
+                    worker rabotyaga = new worker(name_of_worker, post, Image.FromStream(ms), startofworking, endofworking, attract[id_attr]);
                     workers.Add(rabotyaga);
-                 
+
                     listchildworkers.addToList(rabotyaga);
                 }
-                for(int i =0;i<workers.Count;i++)
+                for (int i = 0; i < workers.Count; i++)
                 {
                     workers[i].Smenshik = workers[idworkers[i]];
                 }
             }
-        }
-        private void mainform_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            formochka.Close();
-        }
-        public void clearInfo()
-        {
-            SqlCommand clearCommand = new SqlCommand($"DELETE FROM {nameTableAttractions};",connection);
-            clearCommand.ExecuteNonQuery();
-            clearCommand.CommandText = $"DELETE FROM {nameTableWorkers};";
-            clearCommand.ExecuteNonQuery();
-            clearCommand.CommandText = $"DELETE FROM {nameTableStatus};";
-            clearCommand.ExecuteNonQuery();
-
-        }
-        public void writeintotables()
-        {
-            clearInfo();
-            savetoBaseAttractions("банан", 350, "банан.jpg");
-            savetoBaseAttractions("катамаран", 200, "катамаран.jpg");
-            savetoBaseAttractions("горка", 300, "горка.jpg");
-            savetoBaseAttractions("гидроцикл", 400, "гидроцикл1.jpg");
-            savetoBaseWorkers("Сан Саныч", "охранник", "worker1.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 0, 2);
-            savetoBaseWorkers("Карчевский", "охранник", "worker2.jpg", new DateTime(2022, 8, 11, 8, 30, 0), new DateTime(2022, 8, 11, 20, 30, 0),2, 0);
-            savetoBaseWorkers("Сан Саныч", "охранник", "worker3.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 3, 3);         
-            savetoBaseWorkers("Сан Саныч", "охранник", "worker1.jpg", new DateTime(2022, 7, 11, 8, 30, 0), new DateTime(2022, 7, 11, 20, 30, 0), 1, 1);
-            status st1=new status(0, new DateTime(2022, 4, 25), "Свободен", false, "Занят с 3.04 до 4.04 Арсением");
-            SaveToBaseStatus(new status(1, new DateTime(2022, 3, 9), "Занят", true, "Занят с 3.04 до 4.04 Арсением"));
-
-            SaveToBaseStatus(st1);
-           
         }
         void savetoBaseWorkers(string nameOfWorker, string Post, string workpic, DateTime StartOfWorking, DateTime EndOfWorking, int OwnAttr, int Smenshik)
         {

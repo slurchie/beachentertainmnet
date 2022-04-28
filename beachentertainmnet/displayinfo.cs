@@ -45,6 +45,7 @@ namespace beachentertainmnet
             backgroundphoto.Controls.Add(photo);
             photo.SizeMode = PictureBoxSizeMode.StretchImage;
             photo.Dock = DockStyle.Fill;
+            Panel2.BackColor = Color.AntiqueWhite;
         }
         public void showInfo(IShowInfo objectShow, DateTime date)
         {

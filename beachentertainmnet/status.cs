@@ -51,9 +51,6 @@ namespace beachentertainmnet
                 return current_Time;
             }
         }
-        //public static string textStatus()
-        //{
-        //    return $"Арендатор:{NameOfArendator}\n Начало аренды:{starrttime}\n Конец аренды:{endtime}\n Сотрудник:{serving}";
-        //}
+       
     }
 }

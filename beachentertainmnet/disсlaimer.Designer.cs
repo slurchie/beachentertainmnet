@@ -47,13 +47,15 @@ namespace beachentertainmnet
             // 
             // welcomebutton
             // 
-            this.welcomebutton.BackColor = System.Drawing.Color.LightGreen;
-            this.welcomebutton.Font = new System.Drawing.Font("MV Boli", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.welcomebutton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.welcomebutton.BackColor = System.Drawing.Color.PaleGreen;
+            this.welcomebutton.Font = new System.Drawing.Font("MS Reference Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.welcomebutton.ForeColor = System.Drawing.Color.SaddleBrown;
             this.welcomebutton.Location = new System.Drawing.Point(196, 72);
             this.welcomebutton.Name = "welcomebutton";
             this.welcomebutton.Size = new System.Drawing.Size(400, 88);
             this.welcomebutton.TabIndex = 1;
-            this.welcomebutton.Text = "Добро пожаловать!!!";
+            this.welcomebutton.Text = "Добро пожаловать, в Геленджик!";
             this.welcomebutton.UseVisualStyleBackColor = false;
             this.welcomebutton.Click += new System.EventHandler(this.button1_Click);
             // 
